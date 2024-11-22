@@ -102,7 +102,7 @@
         android:background="@drawable/edittext_bg"
         android:fontFamily="sans-serif-medium"
         android:hint="Password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:padding="16dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -121,7 +121,7 @@
         android:background="@drawable/edittext_bg"
         android:fontFamily="sans-serif-medium"
         android:hint="Re-Enter Password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:padding="16dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -163,7 +163,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textViewLoginLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
