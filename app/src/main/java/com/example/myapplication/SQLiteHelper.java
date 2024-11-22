@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.Arrays;
+
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "fitTrackApp.db";
@@ -114,21 +116,26 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 
     // Password Comparison
-    public boolean authenticateUser(String email, String enteredPassword) {
+    public Integer authenticateUser(String email, String enteredPassword) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("users", new String[]{"password"}, "email=?",
+        Cursor cursor = db.query("users", new String[]{"password", "user_id"}, "email=?",
                 new String[]{email}, null, null, null);
 
         if (cursor != null) {
             int passwordColumnIndex = cursor.getColumnIndex("password");
+            int userIdColumnIndex = cursor.getColumnIndex("user_id");
 
             if (passwordColumnIndex != -1) {
                 if (cursor.moveToFirst()) {
                     String storedPasswordHash = cursor.getString(passwordColumnIndex);
+                    int userId = cursor.getInt(userIdColumnIndex);
                     cursor.close();
 
                     String hashedEnteredPassword = EncryptionUtils.hashPassword(enteredPassword);
-                    return storedPasswordHash.equals(hashedEnteredPassword);
+                    if (storedPasswordHash.equals(hashedEnteredPassword)) {
+                        // Return the user_id if authentication is successful
+                        return userId;
+                    }
                 }
             } else {
                 Log.e("SQLiteHelper", "Column 'password' not found in the 'users' table.");
@@ -136,9 +143,138 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             cursor.close();
         }
 
-        return false;
+        return null;
 
     }
+
+    public String getUsernameById(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                "users",
+                new String[]{"username"}, // Ensure "username" matches the actual column name in the table
+                "user_id=?",
+                new String[]{String.valueOf(userId)},
+                null, null, null
+        );
+
+        if (cursor != null) {
+            try {
+                // Log column names for debugging
+                Log.d("SQLiteHelper", "Columns in cursor: " + Arrays.toString(cursor.getColumnNames()));
+
+                if (cursor.moveToFirst()) {
+                    int columnIndex = cursor.getColumnIndex("username");
+
+                    if (columnIndex >= 0) { // Ensure the column exists
+                        return cursor.getString(columnIndex); // Return the username
+                    } else {
+                        Log.e("SQLiteHelper", "Column 'username' not found in query results.");
+                    }
+                } else {
+                    Log.e("SQLiteHelper", "Cursor is empty. No matching user_id found.");
+                }
+            } finally {
+                cursor.close(); // Ensure the cursor is closed to avoid resource leaks
+            }
+        } else {
+            Log.e("SQLiteHelper", "Query returned a null cursor.");
+        }
+
+        return null; // Return null if no user is found or an error occurs
+    }
+
+    public int getCurrentCalories(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(calories) AS total_calories FROM calorie_intake WHERE user_id = ? AND DATE(intake_date) = DATE('now')",
+                new String[]{String.valueOf(userId)}
+        );
+
+        int totalCalories = 0;
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    totalCalories = cursor.getInt(cursor.getColumnIndexOrThrow("total_calories"));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return totalCalories;
+    }
+
+    public int getCurrentWaterIntake(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(water_amount) AS total_water FROM water_intake WHERE user_id = ? AND DATE(intake_date) = DATE('now')",
+                new String[]{String.valueOf(userId)}
+        );
+
+        int totalWater = 0;
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    totalWater = cursor.getInt(cursor.getColumnIndexOrThrow("total_water"));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return totalWater;
+    }
+
+    public int getCurrentMeditationStreak(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT streak_count FROM meditation_streak WHERE user_id = ?",
+                new String[]{String.valueOf(userId)}
+        );
+
+        int streakCount = 0;
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    streakCount = cursor.getInt(cursor.getColumnIndexOrThrow("streak_count"));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return streakCount;
+    }
+
+    public int getTargetCalories(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("calorie_target", new String[]{"target_calories"}, "user_id=?",
+                new String[]{String.valueOf(userId)}, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int targetCalories = cursor.getInt(cursor.getColumnIndexOrThrow("target_calories"));
+                cursor.close();
+                return targetCalories;
+            }
+            cursor.close();
+        }
+        return 0;
+    }
+
+    public int getTargetWater(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("water_target", new String[]{"target_water_level"}, "user_id=?",
+                new String[]{String.valueOf(userId)}, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int targetWater = cursor.getInt(cursor.getColumnIndexOrThrow("target_water_level"));
+                cursor.close();
+                return targetWater;
+            }
+            cursor.close();
+        }
+        return 0;
+    }
+
 
 
     // Other methods for handling calorie, water, and meditation streak data will go here

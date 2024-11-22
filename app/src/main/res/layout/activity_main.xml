@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textViewDayCount"
+        android:id="@+id/mainDayCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="280dp"
@@ -174,7 +174,7 @@
         app:srcCompat="@drawable/calorie" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/mainCalory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="548dp"
@@ -244,7 +244,7 @@
         app:layout_constraintVertical_bias="0.194" />
 
     <TextView
-        android:id="@+id/textViewWaterLevel"
+        android:id="@+id/mainWaterLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="416dp"
@@ -307,11 +307,11 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <TextView
-        android:id="@+id/textViewName"
+        android:id="@+id/mainName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Mufli Mohideen"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"

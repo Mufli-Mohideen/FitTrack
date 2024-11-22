@@ -39,10 +39,13 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (dbHelper.authenticateUser(email, password)) {
+                Integer userId = dbHelper.authenticateUser(email, password);
+
+                if (userId != null) {
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("userId", userId);
                     startActivity(intent);
                     finish();
                 } else {
@@ -54,10 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         registerToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to RegisterActivity
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
-                finish(); // Optional: Close LoginActivity after navigating to RegisterActivity
+                finish();
             }
         });
 
