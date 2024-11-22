@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userNameR, userEmailR, userPasswordR, userReEnterPasswordR;
     private Button buttonRegister;
     private SQLiteHelper dbHelper;
+    private TextView textViewLoginLink;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
         userReEnterPasswordR = findViewById(R.id.userReEnterPasswordR);
         buttonRegister = findViewById(R.id.buttonRegister);
         buttonRegister = findViewById(R.id.buttonRegister);
+        textViewLoginLink = findViewById(R.id.textViewLoginLink);
 
         dbHelper = new SQLiteHelper(this);
 
@@ -68,9 +71,18 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        textViewLoginLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Redirect to LoginActivity when the TextView is clicked
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 

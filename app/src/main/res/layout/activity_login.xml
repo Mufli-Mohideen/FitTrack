@@ -32,6 +32,7 @@
         android:fontFamily="sans-serif-medium"
         android:hint="Password"
         android:inputType="text"
+        android:clickable="true"
         android:padding="16dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
