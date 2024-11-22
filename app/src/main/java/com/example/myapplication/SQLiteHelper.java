@@ -136,7 +136,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
                     String hashedEnteredPassword = EncryptionUtils.hashPassword(enteredPassword);
                     if (storedPasswordHash.equals(hashedEnteredPassword)) {
-                        // Return the user_id if authentication is successful
                         return userId;
                     }
                 }
@@ -154,7 +153,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
                 "users",
-                new String[]{"username"}, // Ensure "username" matches the actual column name in the table
+                new String[]{"username"},
                 "user_id=?",
                 new String[]{String.valueOf(userId)},
                 null, null, null
@@ -177,7 +176,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     Log.e("SQLiteHelper", "Cursor is empty. No matching user_id found.");
                 }
             } finally {
-                cursor.close(); // Ensure the cursor is closed to avoid resource leaks
+                cursor.close();
             }
         } else {
             Log.e("SQLiteHelper", "Query returned a null cursor.");
@@ -365,5 +364,4 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 
 
-    // Other methods for handling calorie, water, and meditation streak data will go here
 }
