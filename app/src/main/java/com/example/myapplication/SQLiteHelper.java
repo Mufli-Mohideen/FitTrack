@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
@@ -180,13 +183,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             Log.e("SQLiteHelper", "Query returned a null cursor.");
         }
 
-        return null; // Return null if no user is found or an error occurs
+        return null;
     }
 
     public int getCurrentCalories(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
-                "SELECT SUM(calories) AS total_calories FROM calorie_intake WHERE user_id = ? AND DATE(intake_date) = DATE('now')",
+                "SELECT SUM(calories) AS total_calories FROM calorie_intake " +
+                        "WHERE user_id = ? AND DATE(datetime(intake_date / 1000, 'unixepoch')) = DATE('now')",
                 new String[]{String.valueOf(userId)}
         );
 
@@ -200,8 +204,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+        db.close();
         return totalCalories;
     }
+
 
     public int getCurrentWaterIntake(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -274,6 +280,88 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
         return 0;
     }
+
+    public boolean setTargetCalorie(int userId, int targetCalories) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("user_id", userId);
+        values.put("target_calories", targetCalories);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM calorie_target WHERE user_id = ?", new String[]{String.valueOf(userId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            int rowsUpdated = db.update("calorie_target", values, "user_id = ?", new String[]{String.valueOf(userId)});
+            cursor.close();
+            return rowsUpdated > 0;
+        } else {
+            long rowId = db.insert("calorie_target", null, values);
+            cursor.close();
+            return rowId != -1;
+        }
+    }
+
+    public boolean addCalories(int userId, int calories) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("calories", calories);
+        values.put("intake_date", System.currentTimeMillis());
+
+        long result = db.insert("calorie_intake", null, values);
+
+        Log.d("CalorieTracker", "Adding calories for User ID: " + userId);
+
+        db.close();
+
+        return result != -1;
+    }
+
+
+    public boolean deleteTargetAndRecords(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            db.beginTransaction();
+
+            String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            Log.d("DeleteTarget", "Current Date: " + currentDate);
+
+            ContentValues values = new ContentValues();
+            values.put("calories", 0);
+
+            int rowsUpdated = db.update("calorie_intake",
+                    values,
+                    "user_id = ? AND strftime('%Y-%m-%d', datetime(intake_date / 1000, 'unixepoch')) = DATE('now')",
+                    new String[]{String.valueOf(userId)});
+
+            Log.d("DeleteTarget", "Rows Updated in calorie_intake (set to 0): " + rowsUpdated);
+
+            if (rowsUpdated > 0) {
+                ContentValues targetValues = new ContentValues();
+                targetValues.put("target_calories", 0);
+                int rowsTargetUpdated = db.update("calorie_target", targetValues, "user_id = ?", new String[]{String.valueOf(userId)});
+
+                Log.d("DeleteTarget", "Rows Updated in calorie_target: " + rowsTargetUpdated);
+
+                db.setTransactionSuccessful();
+                return true;
+            } else {
+                Log.d("DeleteTarget", "No records found to update for today.");
+                return false;
+            }
+        } catch (Exception e) {
+            Log.e("DeleteTarget", "Error in deleting target and records: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+
+
+
 
 
 

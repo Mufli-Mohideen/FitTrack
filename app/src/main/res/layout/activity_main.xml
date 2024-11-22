@@ -350,7 +350,7 @@
         />
 
     <ImageView
-        android:id="@+id/imageView13"
+        android:id="@+id/btnFoodSuggest"
         android:layout_width="101dp"
         android:layout_height="110dp"
         android:layout_marginBottom="16dp"
@@ -361,7 +361,7 @@
         app:srcCompat="@drawable/food" />
 
     <ImageView
-        android:id="@+id/imageView12"
+        android:id="@+id/btnMeditation"
         android:layout_width="66dp"
         android:layout_height="62dp"
         android:layout_marginBottom="36dp"
@@ -372,7 +372,7 @@
         app:srcCompat="@drawable/meditator" />
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/btnViewWaterIntake"
         android:layout_width="83dp"
         android:layout_height="64dp"
         android:layout_marginBottom="32dp"
@@ -383,10 +383,11 @@
         app:srcCompat="@drawable/water_black" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/btnViewCalorie"
         android:layout_width="63dp"
         android:layout_height="62dp"
         android:layout_marginBottom="36dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.048"

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private TextView mainName,mainCalory, mainWaterLevel, mainDayCount;
     private ProgressBar progressBarCalories,progressBarWater;
+    private ImageView btnViewCalorie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         mainDayCount = findViewById(R.id.mainDayCount);
         progressBarCalories = findViewById(R.id.progressBarCalories);
         progressBarWater = findViewById(R.id.progressBarWater);
+        btnViewCalorie = findViewById(R.id.btnViewCalorie);
 
 
         Intent intent = getIntent();
@@ -55,5 +59,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Error: User ID not passed", Toast.LENGTH_SHORT).show();
         }
+
+        btnViewCalorie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CalorieActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
     }
 }

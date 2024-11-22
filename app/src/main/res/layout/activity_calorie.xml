@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/CalorieProgress"
+        android:id="@+id/txtAddCaloriesC"
         android:layout_width="211dp"
         android:layout_height="52dp"
         android:layout_marginBottom="132dp"
@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonSetTarget"
+        android:id="@+id/btnSetTargetC"
         android:layout_width="265dp"
         android:layout_height="60dp"
         android:layout_marginBottom="352dp"
@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonDeleteTarget"
+        android:id="@+id/buttonDeleteTargetC"
         android:layout_width="265dp"
         android:layout_height="60dp"
         android:layout_marginBottom="40dp"
@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/userPasswordR"
+        android:id="@+id/txtTargetCalorieC"
         android:layout_width="265dp"
         android:layout_height="55dp"
         android:layout_marginBottom="424dp"
@@ -96,7 +96,7 @@
         app:layout_constraintVertical_bias="0.045" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/btnBackC"
         android:layout_width="39dp"
         android:layout_height="41dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -133,31 +133,45 @@
 
 
     <com.mikhaellopez.circularprogressbar.CircularProgressBar
-        android:id="@+id/circularProgressBar"
-        android:layout_width="102dp"
-        android:layout_height="118dp"
-        android:layout_marginBottom="224dp"
+        android:id="@+id/circularProgressBarCalorie"
+        android:layout_width="134dp"
+        android:layout_height="137dp"
+        android:layout_marginBottom="204dp"
         app:cpb_background_progressbar_color="#b6bbd8"
         app:cpb_background_progressbar_width="5dp"
+        app:cpb_progress="50"
         app:cpb_progress_direction="to_right"
         app:cpb_progressbar_color="#3f51b5"
         app:cpb_progressbar_width="10dp"
         app:cpb_round_border="false"
-        app:cpb_progress="50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/btnAddCalorieC"
         android:layout_width="48dp"
         android:layout_height="47dp"
         android:layout_marginBottom="136dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.845"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/orange_round_icon" />
+
+    <TextView
+        android:id="@+id/txtCalorieCountC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="260dp"
+        android:text="NaN"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
