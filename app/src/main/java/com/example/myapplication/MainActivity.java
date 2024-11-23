@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private TextView mainName,mainCalory, mainWaterLevel, mainDayCount;
     private ProgressBar progressBarCalories,progressBarWater;
-    private ImageView btnViewCalorie;
+    private ImageView btnViewCalorie,btnViewWaterIntake,btnViewMeditation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         progressBarCalories = findViewById(R.id.progressBarCalories);
         progressBarWater = findViewById(R.id.progressBarWater);
         btnViewCalorie = findViewById(R.id.btnViewCalorie);
+        btnViewWaterIntake = findViewById(R.id.btnViewWaterIntake);
+        btnViewMeditation = findViewById(R.id.btnViewMeditation);
 
 
         Intent intent = getIntent();
@@ -68,5 +70,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnViewWaterIntake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WaterActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
+
+        btnViewMeditation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MeditationActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

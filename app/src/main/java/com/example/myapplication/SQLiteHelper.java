@@ -211,7 +211,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public int getCurrentWaterIntake(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
-                "SELECT SUM(water_amount) AS total_water FROM water_intake WHERE user_id = ? AND DATE(intake_date) = DATE('now')",
+                "SELECT SUM(water_amount) AS total_water FROM water_intake " +
+                        "WHERE user_id = ? AND DATE(datetime(intake_date / 1000, 'unixepoch')) = DATE('now')",
                 new String[]{String.valueOf(userId)}
         );
 
@@ -225,8 +226,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+        db.close();
         return totalWater;
     }
+
+
 
     public int getCurrentMeditationStreak(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -357,6 +361,99 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
+
+
+    public boolean setWaterTarget(int userId, int targetWaterLevel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            // Check if a record for the user already exists
+            Cursor cursor = db.rawQuery("SELECT target_id FROM water_target WHERE user_id = ?", new String[]{String.valueOf(userId)});
+
+            ContentValues values = new ContentValues();
+            values.put("user_id", userId);
+            values.put("target_water_level", targetWaterLevel);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Update existing record
+                int rowsUpdated = db.update("water_target", values, "user_id = ?", new String[]{String.valueOf(userId)});
+                cursor.close();
+                return rowsUpdated > 0;
+            } else {
+                // Insert new record
+                long result = db.insert("water_target", null, values);
+                return result != -1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            db.close();
+        }
+    }
+
+    public boolean addWaterIntake(int userId, int waterAmount) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("user_id", userId);
+        values.put("water_amount", waterAmount);
+        values.put("intake_date", System.currentTimeMillis());
+
+        long result = db.insert("water_intake", null, values);
+        return result != -1;
+    }
+
+    public boolean deleteWaterTargetAndRecords(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            db.beginTransaction();
+
+            String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            Log.d("DeleteWater", "Current Date: " + currentDate);
+
+            // Set water intake records to 0 for today (ensure correct date comparison)
+            ContentValues intakeValues = new ContentValues();
+            intakeValues.put("water_amount", 0); // Set water amount to 0
+
+            int rowsUpdated = db.update("water_intake",
+                    intakeValues,
+                    "user_id = ? AND strftime('%Y-%m-%d', datetime(intake_date / 1000, 'unixepoch')) = ?",  // Convert intake_date to date
+                    new String[]{String.valueOf(userId), currentDate});
+
+            Log.d("DeleteWater", "Rows Updated in water_intake (set to 0): " + rowsUpdated);
+
+            // Set water target to 0
+            ContentValues targetValues = new ContentValues();
+            targetValues.put("target_water_level", 0); // Set target water level to 0
+
+            int rowsTargetUpdated = db.update("water_target",
+                    targetValues,
+                    "user_id = ?",
+                    new String[]{String.valueOf(userId)});
+
+            Log.d("DeleteWater", "Rows Updated in water_target (set to 0): " + rowsTargetUpdated);
+
+            if (rowsUpdated > 0 || rowsTargetUpdated > 0) {
+                db.setTransactionSuccessful();
+                return true;
+            } else {
+                Log.d("DeleteWater", "No records found to update for today.");
+                return false;
+            }
+        } catch (Exception e) {
+            Log.e("DeleteWater", "Error in updating water target and records: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+
+
+
 
 
 

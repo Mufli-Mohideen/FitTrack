@@ -12,11 +12,42 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="190dp"
-            tools:layout_editor_absoluteY="-40dp" />
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="41dp">
+
+            <TextView
+                android:id="@+id/txtWaterCountW"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="260dp"
+                android:text="NaN"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/circularProgressBarW"
+                android:layout_width="134dp"
+                android:layout_height="137dp"
+                android:layout_marginBottom="204dp"
+                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_width="5dp"
+                app:cpb_progress="50"
+                app:cpb_progress_direction="to_right"
+                app:cpb_progressbar_color="#3f51b5"
+                app:cpb_progressbar_width="10dp"
+                app:cpb_round_border="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
-            android:id="@+id/CalorieProgress"
+            android:id="@+id/txtAddWaterLevelW"
             android:layout_width="211dp"
             android:layout_height="52dp"
             android:layout_marginBottom="132dp"
@@ -34,7 +65,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/buttonSetTarget"
+            android:id="@+id/buttonSetTargetW"
             android:layout_width="265dp"
             android:layout_height="60dp"
             android:layout_marginBottom="352dp"
@@ -50,7 +81,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/buttonDeleteTarget"
+            android:id="@+id/buttonDeleteTargetW"
             android:layout_width="265dp"
             android:layout_height="60dp"
             android:layout_marginBottom="40dp"
@@ -65,7 +96,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/userPasswordR"
+            android:id="@+id/txtTargetWaterW"
             android:layout_width="265dp"
             android:layout_height="55dp"
             android:layout_marginBottom="424dp"
@@ -106,7 +137,7 @@
             app:layout_constraintVertical_bias="0.045" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/btnBackW"
             android:layout_width="39dp"
             android:layout_height="41dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -141,28 +172,12 @@
             app:layout_constraintVertical_bias="0.16"
             app:srcCompat="@drawable/waterlevel" />
 
-        <com.mikhaellopez.circularprogressbar.CircularProgressBar
-            android:id="@+id/circularProgressBar"
-            android:layout_width="102dp"
-            android:layout_height="118dp"
-            android:layout_marginBottom="224dp"
-            app:cpb_background_progressbar_color="#b6bbd8"
-            app:cpb_background_progressbar_width="5dp"
-            app:cpb_progress="50"
-            app:cpb_progress_direction="to_right"
-            app:cpb_progressbar_color="#3f51b5"
-            app:cpb_progressbar_width="10dp"
-            app:cpb_round_border="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/btnAddWaterW"
             android:layout_width="48dp"
             android:layout_height="47dp"
             android:layout_marginBottom="136dp"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.845"

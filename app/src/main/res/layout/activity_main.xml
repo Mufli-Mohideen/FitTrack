@@ -361,10 +361,11 @@
         app:srcCompat="@drawable/food" />
 
     <ImageView
-        android:id="@+id/btnMeditation"
+        android:id="@+id/btnViewMeditation"
         android:layout_width="66dp"
         android:layout_height="62dp"
         android:layout_marginBottom="36dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.602"
@@ -376,6 +377,7 @@
         android:layout_width="83dp"
         android:layout_height="64dp"
         android:layout_marginBottom="32dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.298"

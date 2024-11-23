@@ -102,11 +102,9 @@ public class CalorieActivity extends AppCompatActivity {
                                 if (isTargetSet) {
                                     Toast.makeText(CalorieActivity.this, "Target Calorie Set Successfully", Toast.LENGTH_SHORT).show();
 
-                                    // Fetch updated values
                                     int currentCalories = dbHelper.getCurrentCalories(userId);
                                     int targetCalories = dbHelper.getTargetCalories(userId);
 
-                                    // Update the progress bar
                                     if (targetCalories > 0) {
                                         int progress = (int) ((float) currentCalories / targetCalories * 100);
                                         circularProgressBarCalorie.setProgress(progress);
