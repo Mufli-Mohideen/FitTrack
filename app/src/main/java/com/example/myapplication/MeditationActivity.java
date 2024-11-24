@@ -51,7 +51,6 @@ public class MeditationActivity extends AppCompatActivity {
         playPauseButton.setEnabled(false);
 
         spinnerDuration.setItems("Select Duration", "3 min", "5 min", "10 min", "15 min", "30 min");
-
         spinnerDuration.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
