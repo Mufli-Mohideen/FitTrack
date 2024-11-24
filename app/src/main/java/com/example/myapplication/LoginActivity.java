@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText userEmail, userPassword;
     private TextView registerToggle;
@@ -40,6 +43,26 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 Integer userId = dbHelper.authenticateUser(email, password);
+
+                new Thread(() -> {
+                    try {
+                        String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+                        String subject = "Login Detected on Your FitTrack Account";
+                        String messageBody = "Hi,\n\nWe detected a login from your account at " + currentTime + ".\n" +
+                                "If this wasn't you, please contact the FitTrack team immediately.\n\nBest regards,\nFitTrack Team";
+
+                        EmailSender.sendEmail(email, subject, messageBody);
+                        runOnUiThread(() -> {
+                            Toast.makeText(LoginActivity.this, "Login notification sent!", Toast.LENGTH_SHORT).show();
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        runOnUiThread(() -> {
+                            Toast.makeText(LoginActivity.this, "Login successful, but email sending failed.", Toast.LENGTH_LONG).show();
+                        });
+                    }
+                }).start();
 
                 if (userId != null) {
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();

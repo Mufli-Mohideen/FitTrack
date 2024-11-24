@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -69,7 +70,37 @@ public class RegisterActivity extends AppCompatActivity {
 
                 dbHelper.insertUser(username, email, password);
 
-                Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_LONG).show();
+                new Thread(() -> {
+                    try {
+                        runOnUiThread(() -> {
+                            Toast.makeText(RegisterActivity.this, "Registration Successful. Confirmation email sent!", Toast.LENGTH_LONG).show();
+                        });
+
+                        Thread.sleep(2000);
+
+                        // Send the email
+                        Log.d("EmailSender", "Sending email to: " + email);
+                        String subject = "Welcome to FitTrack!";
+                        String messageBody = "Hi " + username + ",\n\nThank you for registering with FitTrack. Your account is now active.\n\nBest Regards,\nFitTrack Team";
+                        EmailSender.sendEmail(email, subject, messageBody);
+
+                        Log.d("EmailSender", "Email sent successfully");
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        runOnUiThread(() -> {
+                            Toast.makeText(RegisterActivity.this, "Registration Successful, but email sending failed.", Toast.LENGTH_LONG).show();
+                        });
+                    }
+
+                    runOnUiThread(() -> {
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    });
+                }).start();
+
+
 
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
