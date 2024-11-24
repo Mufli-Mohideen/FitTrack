@@ -6,29 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Recipe {
-    private String label;
-    private String image;
-    private List<String> ingredients;
-    private double calories;
-    private double totalWeight;
-    private String cuisineType;
-    private String mealType;
-    private Map<String, Double> nutrients;
+    private String label; // Recipe name
+    private String image; // Image URL
+    private List<String> ingredientLines; // Ingredients list
+    private List<String> dietLabels; // Diet-related labels
+    private double calories; // Total calories
+    private List<String> cuisineType; // Cuisine type (updated to List<String>)
+    private String source; // Recipe source
+    private String url; // URL to the full recipe
 
-    public Recipe(String label, String image, List<String> ingredients, double calories,
-                  double totalWeight, String cuisineType, String mealType, Map<String, Double> nutrients) {
-        this.label = label;
-        this.image = image;
-        this.ingredients = ingredients;
-        this.calories = calories;
-        this.totalWeight = totalWeight;
-        this.cuisineType = cuisineType;
-        this.mealType = mealType;
-        this.nutrients = nutrients;
-    }
-
-    // Getters and Setters
-
+    // Getters and setters for each field
     public String getLabel() {
         return label;
     }
@@ -45,12 +32,20 @@ public class Recipe {
         this.image = image;
     }
 
-    public List<String> getIngredients() {
-        return ingredients;
+    public List<String> getIngredientLines() {
+        return ingredientLines;
     }
 
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
+    public void setIngredientLines(List<String> ingredientLines) {
+        this.ingredientLines = ingredientLines;
+    }
+
+    public List<String> getDietLabels() {
+        return dietLabels;
+    }
+
+    public void setDietLabels(List<String> dietLabels) {
+        this.dietLabels = dietLabels;
     }
 
     public double getCalories() {
@@ -61,43 +56,27 @@ public class Recipe {
         this.calories = calories;
     }
 
-    public double getTotalWeight() {
-        return totalWeight;
-    }
-
-    public void setTotalWeight(double totalWeight) {
-        this.totalWeight = totalWeight;
-    }
-
-    public String getCuisineType() {
+    public List<String> getCuisineType() {
         return cuisineType;
     }
 
-    public void setCuisineType(String cuisineType) {
+    public void setCuisineType(List<String> cuisineType) {
         this.cuisineType = cuisineType;
     }
 
-    public String getMealType() {
-        return mealType;
+    public String getSource() {
+        return source;
     }
 
-    public void setMealType(String mealType) {
-        this.mealType = mealType;
+    public void setSource(String source) {
+        this.source = source;
     }
 
-    public Map<String, Double> getNutrients() {
-        return nutrients;
+    public String getUrl() {
+        return url;
     }
 
-    public void setNutrients(Map<String, Double> nutrients) {
-        this.nutrients = nutrients;
-    }
-
-    public static Recipe fromJson(String json) {
-        return new Gson().fromJson(json, Recipe.class);
-    }
-
-    public String toJson() {
-        return new Gson().toJson(this);
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

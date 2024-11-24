@@ -48,7 +48,7 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".FoodSuggest"
+            android:name=".RecipeDetailsActivity"
             android:exported="true">
         </activity>
     </application>
