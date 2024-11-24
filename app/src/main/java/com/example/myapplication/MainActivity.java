@@ -89,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnFoodSuggest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FoodSuggest.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
 
 
 

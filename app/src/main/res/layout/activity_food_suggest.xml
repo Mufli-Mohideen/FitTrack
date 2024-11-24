@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Title TextView -->
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
@@ -27,6 +28,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.045" />
 
+    <!-- Back Arrow Image -->
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="39dp"
@@ -39,10 +41,7 @@
         app:layout_constraintVertical_bias="0.036"
         app:srcCompat="@drawable/left_arrow" />
 
-    <!-- Button to fetch recipes -->
-
-    <!-- RecyclerView for displaying recipe suggestions -->
-
+    <!-- Dots Image -->
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="53dp"
@@ -55,6 +54,7 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/dots" />
 
+    <!-- Food Input EditText -->
     <EditText
         android:id="@+id/foodInputEditText"
         android:layout_width="0dp"
@@ -69,25 +69,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Fetch Recipes Button -->
     <Button
         android:id="@+id/fetchRecipesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Get Recipes"
         android:textSize="16sp"
+        android:backgroundTint="#F89420"
+        android:elevation="8dp"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/foodInputEditText" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recipesRecyclerView"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fetchRecipesButton"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
