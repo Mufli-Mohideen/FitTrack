@@ -95,4 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
+
 }

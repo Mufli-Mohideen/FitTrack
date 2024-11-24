@@ -62,20 +62,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/meditator_main_icon" />
 
-    <AutoCompleteTextView
-        android:id="@+id/dropdown_minutes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/edittext_bg"
-        android:dropDownWidth="match_parent"
-        android:hint="Select Duration"
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinner_duration"
+        android:layout_width="236dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="Select meditation duration"
+        android:importantForAccessibility="yes"
         android:padding="16dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/fittrack_blue"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView11" />
 
@@ -84,7 +84,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="116dp"
+        android:layout_marginBottom="176dp"
         android:clickable="true"
         android:contentDescription="Play/Pause Meditation Sound"
         android:focusable="true"
@@ -93,6 +93,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/remainingTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="20dp"
+        android:textColor="@color/fittrack_blue"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintVertical_bias="0.824" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
