@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -449,6 +450,63 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
+    }
+
+    public boolean updateMeditationStreak(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT streak_id, streak_count, last_meditation FROM meditation_streak WHERE user_id = ?",
+                new String[]{String.valueOf(userId)}
+        );
+
+        long currentTime = System.currentTimeMillis();
+        boolean isUpdated = false;
+
+        if (cursor.moveToFirst()) {
+            int streakIdIndex = cursor.getColumnIndex("streak_id");
+            int streakCountIndex = cursor.getColumnIndex("streak_count");
+            int lastMeditationIndex = cursor.getColumnIndex("last_meditation");
+
+            if (streakIdIndex != -1 && streakCountIndex != -1 && lastMeditationIndex != -1) {
+                int streakId = cursor.getInt(streakIdIndex);
+                int streakCount = cursor.getInt(streakCountIndex);
+                long lastMeditationTime = cursor.getLong(lastMeditationIndex);
+
+                Calendar lastMeditationDate = Calendar.getInstance();
+                lastMeditationDate.setTimeInMillis(lastMeditationTime);
+                Calendar today = Calendar.getInstance();
+
+                lastMeditationDate.add(Calendar.DAY_OF_YEAR, 1);
+
+                if (today.get(Calendar.YEAR) == lastMeditationDate.get(Calendar.YEAR) &&
+                        today.get(Calendar.DAY_OF_YEAR) == lastMeditationDate.get(Calendar.DAY_OF_YEAR)) {
+                    streakCount++;
+                } else if (today.getTimeInMillis() > lastMeditationDate.getTimeInMillis()) {
+                    streakCount = 1;
+                }
+
+                ContentValues values = new ContentValues();
+                values.put("streak_count", streakCount);
+                values.put("last_meditation", currentTime);
+
+                int rows = db.update("meditation_streak", values, "streak_id = ?", new String[]{String.valueOf(streakId)});
+                isUpdated = rows > 0;
+            } else {
+                Log.e("DatabaseError", "One or more columns are missing in the query result.");
+            }
+        } else {
+            ContentValues values = new ContentValues();
+            values.put("user_id", userId);
+            values.put("streak_count", 1);
+            values.put("last_meditation", currentTime);
+
+            long result = db.insert("meditation_streak", null, values);
+            isUpdated = result != -1;
+        }
+
+        cursor.close();
+        db.close();
+        return isUpdated;
     }
 
 

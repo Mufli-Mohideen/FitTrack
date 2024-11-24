@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private TextView mainName,mainCalory, mainWaterLevel, mainDayCount;
     private ProgressBar progressBarCalories,progressBarWater;
-    private ImageView btnViewCalorie,btnViewWaterIntake,btnViewMeditation;
+    private ImageView btnViewCalorie,btnViewWaterIntake,btnViewMeditation,btnFoodSuggest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         btnViewCalorie = findViewById(R.id.btnViewCalorie);
         btnViewWaterIntake = findViewById(R.id.btnViewWaterIntake);
         btnViewMeditation = findViewById(R.id.btnViewMeditation);
-
+        btnFoodSuggest = findViewById(R.id.btnFoodSuggest);
 
         Intent intent = getIntent();
         int userId = intent.getIntExtra("userId", -1);
@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
 
     }
