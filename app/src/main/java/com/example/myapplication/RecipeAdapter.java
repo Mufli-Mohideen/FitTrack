@@ -10,7 +10,6 @@ import android.net.Uri;
 
 
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

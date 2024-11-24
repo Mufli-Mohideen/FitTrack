@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mainName,mainCalory, mainWaterLevel, mainDayCount;
     private ProgressBar progressBarCalories,progressBarWater;
     private ImageView btnViewCalorie,btnViewWaterIntake,btnViewMeditation,btnFoodSuggest;
+    private Button btnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         btnViewWaterIntake = findViewById(R.id.btnViewWaterIntake);
         btnViewMeditation = findViewById(R.id.btnViewMeditation);
         btnFoodSuggest = findViewById(R.id.btnFoodSuggest);
+        btnLogout = findViewById(R.id.btnLogout);
+
 
         Intent intent = getIntent();
         int userId = intent.getIntExtra("userId", -1);
@@ -95,6 +99,21 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, RecipeDetailsActivity.class);
                 intent.putExtra("userId", userId);
                 startActivity(intent);
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSharedPreferences("UserSession", MODE_PRIVATE)
+                        .edit()
+                        .clear()
+                        .apply();
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
 

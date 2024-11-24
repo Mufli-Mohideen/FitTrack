@@ -1,9 +1,12 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,21 +26,45 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private RecipeAdapter recipeAdapter;
     private EditText foodInputEditText;
     private Button fetchRecipesButton;
+    private ImageView btnBackF;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_suggest);
 
+        userId = getIntent().getIntExtra("userId", -1);
+
+        if (userId == -1) {
+            Toast.makeText(this, "Error: User not found!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         foodInputEditText = findViewById(R.id.foodInputEditText);
         fetchRecipesButton = findViewById(R.id.fetchRecipesButton);
         recipesRecyclerView = findViewById(R.id.recipesRecyclerView);
+        btnBackF = findViewById(R.id.btnBackF);
+
         recipesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         fetchRecipesButton.setOnClickListener(view -> {
             String query = foodInputEditText.getText().toString();
             fetchRecipes(query);
         });
+
+
+        btnBackF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(RecipeDetailsActivity.this, MainActivity.class);
+                    intent.putExtra("userId", userId);
+                    startActivity(intent);
+                    finish();
+            }
+        });
+
     }
 
     private void fetchRecipes(String query) {
